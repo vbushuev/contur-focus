@@ -1,0 +1,12 @@
+{
+    "name": "vsb/contur-focus",
+    "description": "Contur Focus plug for automated check Legacity",
+    "authors": [
+        {
+            "name": "vbushuev",
+            "email": "v.bushuev.co@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
