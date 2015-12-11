@@ -78,7 +78,7 @@ namespace vsb{
             ];
             return $this->query($request);
         }
-        public function Entity($inn,$orgn){
+        public function Entity($inn,$ogrn){
             if(!strlen($inn)||!strlen($ogrn))return json_decode('{}');
             $request = [
                 'uri' => 'ul',
@@ -86,7 +86,7 @@ namespace vsb{
             ];
             return $this->query($request);
         }
-        public function IndividualEntrepreneur($inn,$orgn){
+        public function IndividualEntrepreneur($inn,$ogrn){
             if(!strlen($inn)||!strlen($ogrn))return json_decode('{}');
             $request = [
                 'uri' => 'ip',
