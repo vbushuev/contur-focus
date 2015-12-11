@@ -8,5 +8,11 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {},
+    "repositories":[
+        {
+            "type":"git",
+            "url":"https://github.com/vbushuev/contur-focus"
+        }
+    ]
 }

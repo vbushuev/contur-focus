@@ -36,11 +36,11 @@ namespace vsb{
                 CURLOPT_SSL_VERIFYPEER => false,
             	CURLOPT_FOLLOWLOCATION => true
 	        ];
-            $url = $this->options['conturf']['api'].$q['uri'];
-            $data = [
-                'key' => $this->options['conturf']['keys'][$this->options['conturf']['keys']['default']]['key'],
-                'q' => $q['data']
-            ];
+            $key=(isset($q['key'])&&!empty($q['key'])&&isset($this->options['conturf']['keys'][$q['key']]))
+                ? $this->options['conturf']['keys'][$q['key']]
+                : $this->options['conturf']['keys'][$this->options['conturf']['keys']['default']]['key'];
+            $url = $this->options['conturf']['api'].$q['uri'].'?key='.$key;
+            $data = $q['data'];
             if(!empty($this->options['trace'])){
                 $fp=fopen($this->options['trace']['file'].date("Y-m-d").'.log', 'wa');
                 $curlOptions[CURLOPT_VERBOSE] = 1;
@@ -53,6 +53,7 @@ namespace vsb{
         	  $curlOptions[CURLOPT_PROXYAUTH] = $this->options['proxy']['auth'];
         	  $curlOptions[CURLOPT_PROXYUSERPWD] = $this->options['proxy']['userpwd'];
         	}
+
 	        if(isset($q['method'])&&($q['method'] == "POST")){
                 $curlOptions[CURLOPT_POST] = true;
 		        $curlOptions[CURLOPT_POSTFIELDS] = http_build_query($data);
@@ -73,16 +74,75 @@ namespace vsb{
             if(!strlen($q))return json_decode('{}');
             $request = [
                 'uri' => 'search',
-                'data' => $q
+                'data' => ['q'=>$q]
             ];
             return $this->query($request);
         }
-        public function Entity($q){}
-        public function IndividualEntrepreneur($q){}
-        public function AccountingForms($q){}
-        public function Licences($q){}
-        public function Autocomplete($q){}
-        public function Statistics(){}
+        public function Entity($inn,$orgn){
+            if(!strlen($inn)||!strlen($ogrn))return json_decode('{}');
+            $request = [
+                'uri' => 'ul',
+                'data' => ['inn'=>$inn,'ogrn'=>$ogrn]
+            ];
+            return $this->query($request);
+        }
+        public function IndividualEntrepreneur($inn,$orgn){
+            if(!strlen($inn)||!strlen($ogrn))return json_decode('{}');
+            $request = [
+                'uri' => 'ip',
+                'data' => ['inn'=>$inn,'ogrn'=>$ogrn]
+            ];
+            return $this->query($request);
+        }
+        public function AccountingForms($ogrn){
+            if(!strlen($ogrn))return json_decode('{}');
+            $request = [
+                'uri' => 'buhforms',
+                'data' => ['ogrn'=>$ogrn]
+            ];
+            return $this->query($request);
+        }
+        public function Licences($ogrn){
+            if(!strlen($ogrn))return json_decode('{}');
+            $request = [
+                'uri' => 'search',
+                'data' => ['ogrn'=>$ogrn]
+            ];
+            return $this->query($request);
+        }
+        public function Analytics($ogrn){
+            if(!strlen($ogrn))return json_decode('{}');
+            $request = [
+                'uri' => 'analytics',
+                'data' => ['ogrn'=>$ogrn]
+            ];
+            return $this->query($request);
+        }
+        public function Autocomplete($q){
+            if(!strlen($q))return json_decode('{}');
+            $request = [
+                'uri' => 'autocomplete',
+                'data' => ['q'=>$q]
+            ];
+            return $this->query($request);
+        }
+        public function Resolve($q){
+            if(!strlen($q))return json_decode('{}');
+            $request = [
+                'uri' => 'resolve',
+                'method' => 'POST',
+                'data' => json_encode([
+                    'names'=>$q,
+                    'addresses'=>$q,
+                    'phones'=>$q,
+                ])
+            ];
+            return $this->query($request);
+        }
+        public function Statistics(){
+            //$optimal = $this->query(['uri'=>'stat','key'=>'optimal']);
+            //$standart = $this->query(['uri'=>'stat','key'=>'standart']);
+        }
     }
 }
 ?>
