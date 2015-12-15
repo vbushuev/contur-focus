@@ -14,21 +14,21 @@ class ConturFocus{
         ],
         'conturf' => [
             'api' => 'https://focus-api.kontur.ru/api2/',
-                'keys' => [
-                    'optimal' => [
-                        'key' => '68e25afac3c766547f7e7009249f67eab150db15',
-                        'queries' => 150,
-                        'expiries' => '2016-11-01T00:00:00.00'
-                    ],
-                    'standart' => [
-                        'key' => 'bc35816a3e1582f0e68ec017c955c60d74b986ad',
-                        'queries' => 6600,
-                        'expiries' => '2016-11-01T00:00:00.00'
-                    ],
-                    'default' => 'optimal'
-                ]
+            'keys' => [
+                'optimal' => [
+                    'key' => '68e25afac3c766547f7e7009249f67eab150db15',
+                    'queries' => 150,
+                    'expiries' => '2016-11-01T00:00:00.00'
+                ],
+                'standart' => [
+                    'key' => 'bc35816a3e1582f0e68ec017c955c60d74b986ad',
+                    'queries' => 6600,
+                    'expiries' => '2016-11-01T00:00:00.00'
+                ],
+                'default' => 'optimal'
             ]
-        ];
+        ]
+    ];
         protected function query($q=[]){
             $query_data = "";
 	        $curlOptions = [
@@ -143,5 +143,9 @@ class ConturFocus{
             //$optimal = $this->query(['uri'=>'stat','key'=>'optimal']);
             //$standart = $this->query(['uri'=>'stat','key'=>'standart']);
         }
+    public function getOptions(){
+
+        return $this->options;
+    }
 }
 ?>
