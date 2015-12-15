@@ -29,46 +29,49 @@ class ConturFocus{
                 ],
                 'default' => 'optimal'
             ]
-        ]
+        ],
+        'urldecode' => 1
     ];
-        protected function query($q=[]){
-            $query_data = "";
-	        $curlOptions = [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_SSL_VERIFYPEER => false,
-            	CURLOPT_FOLLOWLOCATION => true
-	        ];
-            $key=(isset($q['key'])&&!empty($q['key'])&&isset($this->options['conturf']['keys'][$q['key']]))
-                ? $this->options['conturf']['keys'][$q['key']]
-                : $this->options['conturf']['keys'][$this->options['conturf']['keys']['default']]['key'];
-            $url = $this->options['conturf']['api'].$q['uri'].'?key='.$key;
-            $data = $q['data'];
-            if(!empty($this->options['trace'])){
-                $fp=fopen($this->options['trace']['file'].date("Y-m-d").'.log', 'wa');
-                $curlOptions[CURLOPT_VERBOSE] = 1;
-            	$curlOptions[CURLOPT_STDERR] = $fp;
-            }
-            if(!empty($this->options['proxy'])){
-        	  $curlOptions[CURLOPT_PROXYTYPE] = $this->options['proxy']['type'];
-        	  $curlOptions[CURLOPT_PROXY] = $this->options['proxy']['host'];
-        	  $curlOptions[CURLOPT_PROXYPORT] = $this->options['proxy']['port'];
-        	  $curlOptions[CURLOPT_PROXYAUTH] = $this->options['proxy']['auth'];
-        	  $curlOptions[CURLOPT_PROXYUSERPWD] = $this->options['proxy']['userpwd'];
-        	}
-
-	        if(isset($q['method'])&&($q['method'] == "POST")){
-                $curlOptions[CURLOPT_POST] = true;
-		        $curlOptions[CURLOPT_POSTFIELDS] = http_build_query($data);
-	        }
-	        elseif(!empty($data)){
-                $url .= strpos($url, "?") > 0 ? "&" : "?";
-                $url .= http_build_query($data);
-	        }
-	        $curl = curl_init($url);
-	        curl_setopt_array($curl, $curlOptions);
-	        $result = curl_exec($curl);
-	        return json_decode($result, 1);
+    protected function query($q=[]){
+        $query_data = "";
+	    $curlOptions = [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_FOLLOWLOCATION => true
+	    ];
+        $key=(isset($q['key'])&&!empty($q['key'])&&isset($this->options['conturf']['keys'][$q['key']]))
+            ? $this->options['conturf']['keys'][$q['key']]
+            : $this->options['conturf']['keys'][$this->options['conturf']['keys']['default']]['key'];
+        $url = $this->options['conturf']['api'].$q['uri'].'?key='.$key;
+        $data = $q['data'];
+        if(!empty($this->options['trace'])){
+            $fp=fopen($this->options['trace']['file'].date("Y-m-d").'.log', 'wa');
+            $curlOptions[CURLOPT_VERBOSE] = 1;
+        	$curlOptions[CURLOPT_STDERR] = $fp;
         }
+        if(!empty($this->options['proxy'])){
+          $curlOptions[CURLOPT_PROXYTYPE] = $this->options['proxy']['type'];
+          $curlOptions[CURLOPT_PROXY] = $this->options['proxy']['host'];
+          $curlOptions[CURLOPT_PROXYPORT] = $this->options['proxy']['port'];
+          $curlOptions[CURLOPT_PROXYAUTH] = $this->options['proxy']['auth'];
+          $curlOptions[CURLOPT_PROXYUSERPWD] = $this->options['proxy']['userpwd'];
+        }
+	    if(isset($q['method'])&&($q['method'] == "POST")){
+            $curlOptions[CURLOPT_POST] = true;
+		    $curlOptions[CURLOPT_POSTFIELDS] = http_build_query($data);
+	    }
+	    elseif(!empty($data)){
+            $url .= strpos($url, "?") > 0 ? "&" : "?";
+            $url .= http_build_query($data);
+	    }
+	    $curl = curl_init($url);
+	    curl_setopt_array($curl, $curlOptions);
+	    $result = curl_exec($curl);
+        if(isset($this->options['urldecode'])&&$this->options['urldecode']==1){
+            $result = urldecode($result);
+        }
+	    return json_decode($result, 1);
+    }
         public function __construct($o=[]){
             $this->options=array_merge($this->options,$o);
         }
