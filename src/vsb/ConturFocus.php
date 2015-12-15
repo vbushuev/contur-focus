@@ -1,5 +1,5 @@
 <?php
-namespace vsb{
+namespace vsb;
     class ConturFocus{
         protected $options=[
             'proxy' => [
@@ -144,5 +144,4 @@ namespace vsb{
             //$standart = $this->query(['uri'=>'stat','key'=>'standart']);
         }
     }
-}
 ?>
