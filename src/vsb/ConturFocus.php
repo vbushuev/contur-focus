@@ -1,19 +1,19 @@
 <?php
 namespace vsb;
-    class ConturFocus{
-        protected $options=[
-            'proxy' => [
-                'type' => CURLPROXY_HTTP,
-                'host' => '192.168.11.7',
-                'port' => 8080,
-                'auth' => CURLAUTH_NTLM,
-                'userpwd' => 'v.bushuev:Vampire04',
-            ],
-            'trace' => [
-                'file' => '../logs/curltrace'
-            ],
-            'conturf' => [
-                'api' => 'https://focus-api.kontur.ru/api2/',
+class ConturFocus{
+    protected $options=[
+        'proxy' => [
+            'type' => CURLPROXY_HTTP,
+            'host' => '192.168.11.7',
+            'port' => 8080,
+            'auth' => CURLAUTH_NTLM,
+            'userpwd' => 'v.bushuev:Vampire04',
+        ],
+        'trace' => [
+            'file' => '../logs/curltrace'
+        ],
+        'conturf' => [
+            'api' => 'https://focus-api.kontur.ru/api2/',
                 'keys' => [
                     'optimal' => [
                         'key' => '68e25afac3c766547f7e7009249f67eab150db15',
@@ -143,5 +143,5 @@ namespace vsb;
             //$optimal = $this->query(['uri'=>'stat','key'=>'optimal']);
             //$standart = $this->query(['uri'=>'stat','key'=>'standart']);
         }
-    }
+}
 ?>
